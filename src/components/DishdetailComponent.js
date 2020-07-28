@@ -1,8 +1,8 @@
 import React from 'react';
-import {Card, CardImg, CardText, CardBody, CardTitle} from 'reactstrap';
+import {Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem} from 'reactstrap';
+import {Link} from 'react-router-dom';
 
-
-function RenderDish({dish})
+function RenderDish({dish, onClick})
 {
     return(
     <div className="col-12 col-md-5 m-1">
@@ -60,8 +60,17 @@ function RenderDish({dish})
             return(
                     <div className="container">
                         <div className="row">
-                            <RenderDish dish = {props.dish}/>
-                            <RenderComments commentArray={props.dish.comments}/>
+                            <Breadcrumb>
+                                <BreadcrumbItem><Link to='/home'>Home</Link></BreadcrumbItem>
+                                <BreadcrumbItem><Link to='/menu'>menu</Link></BreadcrumbItem>
+                                <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                            </Breadcrumb>
+                            <div className="col-12">
+                                <h3>{props.dish.name}</h3>
+                                <hr />
+                            </div>
+                                <RenderDish dish = {props.dish}/>
+                                <RenderComments commentArray={props.comments}/>
                         </div>    
                     </div>
             );

@@ -176,7 +176,7 @@ class Contact extends Component
                             <Row className="form-group">                                
                             <Label htmlFor="message" md={2}>Your Feedback</Label>
                                 <Col md={10}>
-                                    <Control.textarea model=".message" type="textarea" id="message" name="message"
+                                    <Control.textarea model=".message" id="message" name="message"
                                         row="12"
                                         className="form-control"/>                                
                                 </Col>

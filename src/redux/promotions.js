@@ -7,4 +7,4 @@ export const Promotions = (state = PROMOTIONS, action) => {
         default:
             return state;
     }
-}
+};

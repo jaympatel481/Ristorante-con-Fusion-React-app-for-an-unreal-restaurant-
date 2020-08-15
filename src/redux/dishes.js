@@ -6,4 +6,4 @@ export const Dishes = (state = DISHES, action) => {
         default:
             return state;
     }
-}
+};

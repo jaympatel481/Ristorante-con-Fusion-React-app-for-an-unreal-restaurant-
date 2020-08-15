@@ -22,8 +22,8 @@ class CommentForm extends Component
 
     handleSubmit(values)
     {
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.message);
     }
 
     toggleModal()
@@ -76,7 +76,7 @@ class CommentForm extends Component
                                             required: 'Required',
                                             minLength: 'Must be greater than 2 characters.',
                                             maxLength: 'Must be less than or 15 characters.',
-                                            isAlpha: 'Name cannot contain numbers.'
+                                            isAlpha: 'Name Should contain alphabets only.'
                                         }}
                                     />
                             </Row>
@@ -120,7 +120,7 @@ function RenderDish({dish})
     );
 }
 
-    function RenderComments({commentArray})
+    function RenderComments({commentArray, addComment, dishId})
     {
         if(commentArray!=null)
         {   
@@ -143,7 +143,7 @@ function RenderDish({dish})
                     <h4>Comments</h4>
                     <ul className="list-unstyled">
                         {commentSet}
-                        <CommentForm/>
+                        <CommentForm dishId={dishId} addComment={addComment}/>
                     </ul>
                 </div>
             );
@@ -174,7 +174,9 @@ function RenderDish({dish})
                                 <hr />
                             </div>
                                 <RenderDish dish = {props.dish}/>
-                                <RenderComments commentArray={props.comments}/>
+                                <RenderComments commentArray={props.comments}
+                                    addComment={props.addComment}
+                                    dishId={props.dish.id}/>
                         </div>    
                     </div>
             );

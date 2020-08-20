@@ -46,7 +46,34 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
 
 }
 
-export const fetchDishes = () => (dispatch) => {
+export const postFeedback = (values) => {
+    const newFeedback = {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        telnum: values.telnum,
+        email: values.email,
+        agree: values.agree,
+        contactType: values.contactType,
+        message: values.message
+        }
+
+    return fetch(baseUrl + 'feedback', {
+        method: 'POST',
+        body: JSON.stringify(newFeedback),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })      
+            .then(response => response.json())
+            .then(response => {
+                alert(JSON.stringify(response));
+            })
+            .catch(error => {alert(error.message)});
+
+}
+
+export const fetchDishes = () => dispatch => {
     dispatch(dishesLoading(true));
 
     return fetch(baseUrl + 'dishes')

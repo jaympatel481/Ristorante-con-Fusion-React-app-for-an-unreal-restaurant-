@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Input, Label, Col, Row} from 'reactstrap';
+import {Breadcrumb, BreadcrumbItem, Button, Label, Col, Row} from 'reactstrap';
 import {Link} from 'react-router-dom';
-import {Control, Errors, actions} from 'react-redux-form';
+import {Control, Form, Errors} from 'react-redux-form';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => (val) && (val.length >= len);
-const isNumber = (val) => isNaN(Number(val));
+const isNumber = (val) => /^[0-9]*$/i.test(val);
 const validEmail = (val) => /^\[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 class Contact extends Component 
@@ -17,11 +17,11 @@ class Contact extends Component
         this.handleSubmit=this.handleSubmit.bind(this);
     }
 
-    handleSubmit(values)
+    handleSubmit(values,event)
     {
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
         this.props.resetFeedbackForm();
+        this.props.postFeedback(values);
+        event.preventDefault();
     }
 
     
@@ -71,7 +71,7 @@ class Contact extends Component
                         <h3>Send Us Your Feedback</h3>
                     </div>
                     <div className="col-12 col-md-9">
-                        <Form model="feedback" onSubmit={(values) => this.handleSubmit(values)}>
+                        <Form model="feedback" onSubmit={(values,event) => this.handleSubmit(values,event)}>
                             <Row className="form-group">
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
@@ -120,7 +120,7 @@ class Contact extends Component
                                         placeholder="Tel. Number"
                                         className="form-control"
                                         validators={{
-                                            required, minLength: minLength(3), maxLength: maxLength(15), 
+                                            required, minLength: minLength(10), maxLength: maxLength(10), 
                                             isNumber
                                         }}/>
                                     <Errors 
@@ -129,8 +129,8 @@ class Contact extends Component
                                         show="touched"
                                         messages={{
                                             required: 'Required',
-                                            minLength: 'Must be greater than 2 numbers.',
-                                            maxLength: 'Must be less than or 15 numbers.',
+                                            minLength: 'Must be 10 numbers.',
+                                            maxLength: 'Must be 10 numbers.',
                                             isNumber: 'Must be a Number.'
                                         }}
                                         />
@@ -161,7 +161,7 @@ class Contact extends Component
                                     <div className="form-check">
                                         <Label check>
                                             <Control.checkbox model=".agree" name="agree" 
-                                                className="form-group"/>{' '}
+                                                className="form-check-input"/>{' '}
                                             <strong>May We Contact You?</strong> 
                                         </Label>
                                     </div>
